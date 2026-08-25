@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Control de Cocina Escolar | Digital Core Solutions</title>
+    
+    <!-- Fuentes Tipográficas Minimalistas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Supabase JS Client SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            base: '#0D1B2A',
+                            dark: '#142132',
+                            surface: '#1B263B',
+                            border: '#2A3B52',
+                            lightborder: '#E2E8F0',
+                            muted: '#94A3B8',
+                            light: '#F4F7FA'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-navy-light text-slate-900 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- BARRA SUPERIOR DE NAVEGACIÓN -->
+    <header class="bg-white sticky top-0 z-40 shadow-sm border-b border-navy-lightborder">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="logo.png" alt="Digital Core Solutions" class="h-10 w-auto object-contain">
+                    <div class="flex flex-col">
+                        <span class="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-navy-base leading-tight">
+                            DIGITAL CORE
+                        </span>
+                        <span class="text-[10px] tracking-[0.25em] text-emerald-600 font-bold uppercase">
+                            COCINA ESCOLAR
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Perfil y Salir -->
+                <div class="flex items-center gap-4">
+                    <div class="text-right hidden sm:block">
+                        <p id="userFullName" class="text-xs font-bold text-navy-base leading-tight">Cargando...</p>
+                        <p id="userCompany" class="text-[11px] text-slate-500 leading-tight">Plantel Escolar</p>
+                    </div>
+                    <button id="logoutBtn" class="bg-navy-light hover:bg-slate-200 text-slate-700 text-xs font-semibold px-4 py-2.5 rounded border border-slate-300 transition flex items-center gap-2 cursor-pointer">
+                        <i class="fa-solid fa-arrow-right-from-bracket text-red-500"></i>
+                        <span>Cerrar Sesión</span>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <!-- MENÚ DE NAVEGACIÓN POR MÓDULOS -->
+    <div class="bg-navy-base text-white border-b border-navy-border sticky top-20 z-30 shadow">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex space-x-2 sm:space-x-4 overflow-x-auto py-2 text-xs font-semibold">
+            <button onclick="switchTab('resumen')" id="btn-resumen" class="nav-tab px-3.5 py-2 rounded bg-white/10 text-white flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-chart-pie"></i> <span>Resumen Financiero</span>
+            </button>
+            <button onclick="switchTab('alumnos')" id="btn-alumnos" class="nav-tab px-3.5 py-2 rounded text-slate-300 hover:text-white hover:bg-white/5 flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-users"></i> <span>Control de Alumnos</span>
+            </button>
+            <button onclick="switchTab('ingresos')" id="btn-ingresos" class="nav-tab px-3.5 py-2 rounded text-slate-300 hover:text-white hover:bg-white/5 flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-circle-arrow-down text-emerald-400"></i> <span>Ingresos</span>
+            </button>
+            <button onclick="switchTab('egresos')" id="btn-egresos" class="nav-tab px-3.5 py-2 rounded text-slate-300 hover:text-white hover:bg-white/5 flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-circle-arrow-up text-blue-400"></i> <span>Egresos / Gastos</span>
+            </button>
+            <button onclick="switchTab('mermas')" id="btn-mermas" class="nav-tab px-3.5 py-2 rounded text-slate-300 hover:text-white hover:bg-white/5 flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400"></i> <span>Mermas</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        
+        <!-- ENCABEZADO -->
+        <div class="mb-6">
+            <h1 id="page-title" class="font-heading font-extrabold text-2xl sm:text-3xl text-navy-base">Resumen Financiero</h1>
+            <p class="text-slate-500 text-xs sm:text-sm mt-1">Control integral de ingresos, proveedores, cuotas escolares y mermas operativas.</p>
+        </div>
+
+        <!-- TARJETAS DE TOTALES GLOBALES (KPIs) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            
+            <div class="bg-white p-5 rounded-2xl border border-navy-lightborder shadow-sm border-l-4 border-l-emerald-600">
+                <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Total Ingresos</span>
+                <h3 class="font-heading font-extrabold text-2xl text-navy-base mt-1" id="lbl-total-ingresos">$0.00</h3>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-navy-lightborder shadow-sm border-l-4 border-l-blue-600">
+                <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Total Egresos (Gastos)</span>
+                <h3 class="font-heading font-extrabold text-2xl text-navy-base mt-1" id="lbl-total-egresos">$0.00</h3>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-navy-lightborder shadow-sm border-l-4 border-l-amber-500">
+                <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Mermas Registradas</span>
+                <h3 class="font-heading font-extrabold text-2xl text-navy-base mt-1" id="lbl-total-mermas">$0.00</h3>
+            </div>
+
+            <div class="bg-white p-5 rounded-2xl border border-navy-lightborder shadow-sm border-l-4 border-l-purple-600">
+                <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Balance Neto</span>
+                <h3 class="font-heading font-extrabold text-2xl text-navy-base mt-1" id="lbl-balance-neto">$0.00</h3>
+            </div>
+
+        </div>
+
+        <!-- PANEL: RESUMEN -->
+        <div id="tab-resumen" class="tab-panel space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-navy-lightborder shadow-sm">
+                <h3 class="font-heading font-bold text-base text-navy-base mb-2">Instrucciones Operativas</h3>
+                <p class="text-xs text-slate-600 leading-relaxed mb-3">
+                    Este módulo opera de manera persistente en tu navegador. Toda modificación de semanas en alumnos, registros de gastos o mermas se actualiza de forma instantánea.
+                </p>
+                <ul class="text-xs text-slate-600 space-y-1.5 list-disc list-inside">
+                    <li><strong>Control de Alumnos:</strong> Puedes editar directamente las casillas de las semanas (S1 a S5). Los cambios se guardan automáticamente.</li>
+                    <li><strong>Transacciones:</strong> Registra entradas y salidas con su concepto para recalcular el balance financiero general.</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-navy-lightborder shadow-sm overflow-hidden">
+                <div class="p-4 border-b border-navy-lightborder bg-slate-50">
+                    <h3 class="font-heading font-bold text-sm text-navy-base">Movimientos Recientes</h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                            <tr>
+                                <th class="p-3.5">Fecha</th>
+                                <th class="p-3.5">Tipo</th>
+                                <th class="p-3.5">Concepto / Detalle</th>
+                                <th class="p-3.5 text-right">Monto</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-recientes" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL: CONTROL DE ALUMNOS -->
+        <div id="tab-alumnos" class="tab-panel hidden space-y-4">
+            <div class="bg-white p-4 rounded-2xl border border-navy-lightborder shadow-sm flex flex-col sm:flex-row justify-between items-center gap-3">
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <label class="text-xs font-bold text-slate-700 whitespace-nowrap">Filtrar Grado:</label>
+                    <select id="filter-grado" onchange="renderAlumnos()" class="text-xs p-2 rounded border border-slate-300 bg-white focus:outline-none focus:border-navy-base w-full sm:w-auto">
+                        <option value="TODOS">Todos los Grados</option>
+                        <option value="1° Primaria">1° Primaria</option>
+                        <option value="2° Primaria">2° Primaria</option>
+                        <option value="3° Primaria">3° Primaria</option>
+                        <option value="4° Primaria">4° Primaria</option>
+                        <option value="5° Primaria">5° Primaria</option>
+                        <option value="6° Primaria">6° Primaria</option>
+                    </select>
+                </div>
+                <input type="text" id="search-alumno" oninput="renderAlumnos()" placeholder="Buscar alumno o tutor..." class="w-full sm:w-72 text-xs p-2 rounded border border-slate-300 focus:outline-none focus:border-navy-base">
+            </div>
+
+            <div class="bg-white rounded-2xl border border-navy-lightborder shadow-sm overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                            <tr>
+                                <th class="p-3">Grado</th>
+                                <th class="p-3">Alumno</th>
+                                <th class="p-3">Tutor</th>
+                                <th class="p-3">Teléfono</th>
+                                <th class="p-3">Mes</th>
+                                <th class="p-3 text-center">S1</th>
+                                <th class="p-3 text-center">S2</th>
+                                <th class="p-3 text-center">S3</th>
+                                <th class="p-3 text-center">S4</th>
+                                <th class="p-3 text-center">S5</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-alumnos" class="divide-y divide-slate-100"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL: INGRESOS -->
+        <div id="tab-ingresos" class="tab-panel hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-navy-lightborder shadow-sm">
+                <h3 class="font-heading font-bold text-sm text-emerald-800 mb-4">Registrar Nuevo Ingreso</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Fecha</label>
+                        <input type="date" id="ingreso-fecha" class="w-full text-xs p-2.5 rounded border border-slate-300">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Concepto / Detalle</label>
+                        <input type="text" id="ingreso-concepto" placeholder="Ej. Cuota semanal, aportación voluntaria" class="w-full text-xs p-2.5 rounded border border-slate-300">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Monto ($)</label>
+                        <input type="number" step="0.01" id="ingreso-monto" placeholder="0.00" class="w-full text-xs p-2.5 rounded border border-slate-300">
+                    </div>
+                </div>
+                <button onclick="addTransaccion('Ingreso')" class="mt-4 bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold py-2.5 px-4 rounded transition cursor-pointer">
+                    Guardar Ingreso
+                </button>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-navy-lightborder shadow-sm overflow-hidden">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                        <tr>
+                            <th class="p-3.5">Fecha</th>
+                            <th class="p-3.5">Concepto</th>
+                            <th class="p-3.5">Monto</th>
+                            <th class="p-3.5 text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-ingresos-list" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PANEL: EGRESOS -->
+        <div id="tab-egresos" class="tab-panel hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-navy-lightborder shadow-sm">
+                <h3 class="font-heading font-bold text-sm text-blue-800 mb-4">Registrar Nuevo Egreso / Gasto</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Fecha</label>
+                        <input type="date" id="egreso-fecha" class="w-full text-xs p-2.5 rounded border border-slate-300">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Concepto / Proveedor</label>
+                        <input type="text" id="egreso-concepto" placeholder="Ej. Compra de verdura, carne, gas, desechables" class="w-full text-xs p-2.5 rounded border border-slate-300">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Monto ($)</label>
+                        <input type="number" step="0.01" id="egreso-monto" placeholder="0.00" class="w-full text-xs p-2.5 rounded border border-slate-300">
+                    </div>
+                </div>
+                <button onclick="addTransaccion('Egreso')" class="mt-4 bg-blue-700 hover:bg-blue-800 text-white text-xs font-bold py-2.5 px-4 rounded transition cursor-pointer">
+                    Guardar Egreso
+                </button>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-navy-lightborder shadow-sm overflow-hidden">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                        <tr>
+                            <th class="p-3.5">Fecha</th>
+                            <th class="p-3.5">Concepto / Gasto</th>
+                            <th class="p-3.5">Monto</th>
+                            <th class="p-3.5 text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-egresos-list" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PANEL: MERMAS -->
+        <div id="tab-mermas" class="tab-panel hidden space-y-6">
+            <div class="bg-white p-6 rounded-2xl border border-navy-lightborder shadow-sm">
+                <h3 class="font-heading font-bold text-sm text-amber-800 mb-4">Registrar Merma (Pérdidas de Materia Prima)</h3>
+                <div class="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Fecha</label>
+                        <input type="date" id="merma-fecha" class="w-full text-xs p-2.5 rounded border border-slate-300">
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Insumo / Razón del desecho</label>
+                        <input type="text" id="merma-concepto" placeholder="Ej. 3kg jitomate descompuesto, alimento no consumido" class="w-full text-xs p-2.5 rounded border border-slate-300">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-600 mb-1">Valor Estimado ($)</label>
+                        <input type="number" step="0.01" id="merma-monto" placeholder="0.00" class="w-full text-xs p-2.5 rounded border border-slate-300">
+                    </div>
+                </div>
+                <button onclick="addTransaccion('Merma')" class="mt-4 bg-amber-700 hover:bg-amber-800 text-white text-xs font-bold py-2.5 px-4 rounded transition cursor-pointer">
+                    Guardar Merma
+                </button>
+            </div>
+
+            <div class="bg-white rounded-2xl border border-navy-lightborder shadow-sm overflow-hidden">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-100 text-slate-700 font-semibold border-b border-slate-200">
+                        <tr>
+                            <th class="p-3.5">Fecha</th>
+                            <th class="p-3.5">Detalle de Merma</th>
+                            <th class="p-3.5">Valor Estimado</th>
+                            <th class="p-3.5 text-right">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-mermas-list" class="divide-y divide-slate-100"></tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-navy-lightborder py-6 text-center text-xs text-slate-400 mt-auto">
+        &copy; 2026 Digital Core Solutions. Módulo de Gestión y Operación de Cocinas Escolares.
+    </footer>
+
+    <!-- SCRIPT DE LÓGICA Y SUPABASE -->
+    <script>
+        // 1. Base de datos inicial de alumnos
+        const initialStudents = [
+            {"grado": "1° Primaria", "alumno": "Ian José Olán Domínguez", "tutor": "Domínguez Jiménez Linda Cristell", "tel": "9933887317", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "1° Primaria", "alumno": "Jackeline Hernández Cruz", "tutor": "Hernández Cruz Elisa Zurisadai", "tel": "9931997999", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "1° Primaria", "alumno": "Andy Edward Mojarraz Cordero", "tutor": "Cordero García Silvia", "tel": "9932113381", "mes": "Junio", "s1": "02 jun - $100 (transf)", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "1° Primaria", "alumno": "José Daniel Ascencio Hernández", "tutor": "Hernández Jiménez Aura del Carmen", "tel": "9931142510", "mes": "Junio", "s1": "01 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "1° Primaria", "alumno": "Camila Daniela García Cruz", "tutor": "Cruz Domínguez Fernanda", "tel": "9935458222", "mes": "Junio", "s1": "02 jun - $200", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "1° Primaria", "alumno": "Clear Estefany García Santos", "tutor": "Santos Domínguez Sugey", "tel": "9932457229", "mes": "Junio", "s1": "02 jun - $100 (transf)", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "1° Primaria", "alumno": "Ana Ruth Márquez de la Fuente", "tutor": "De la fuente Córdova Anabel", "tel": "9331551752", "mes": "Junio", "s1": "01 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "1° Primaria", "alumno": "Paola Renata Hernández Martínez", "tutor": "Martínez Gutiérrez Paulina", "tel": "9932068338", "mes": "Junio", "s1": "01 jun - $100", "s2": "09 jun - $100", "s3": "", "s4": "", "s5": ""},
+            {"grado": "1° Primaria", "alumno": "Gianna Darlyn Jaramillo Vázquez", "tutor": "Vázquez Cupil Karen Amayrany", "tel": "9931361998", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "1° Primaria", "alumno": "Isaac Alberto Hernández Jiménez", "tutor": "Jiménez Jiménez Paula", "tel": "9933973355", "mes": "Mayo/Junio", "s1": "28 may - $150", "s2": "04 jun - $150", "s3": "", "s4": "", "s5": ""},
+            {"grado": "1° Primaria", "alumno": "Katherin Rodríguez Silvan", "tutor": "Kati Silvan", "tel": "9932179058", "mes": "Junio", "s1": "04 jun - $200", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "2° Primaria", "alumno": "Leonardo Javier Ramos Merito", "tutor": "Merito Contreras Rosa Estrella", "tel": "9931509825", "mes": "Junio", "s1": "01 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "2° Primaria", "alumno": "Leandro Sánchez Cano", "tutor": "Sánchez Gómez Miguel Ángel", "tel": "9935040401", "mes": "Mayo", "s1": "29 may - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "2° Primaria", "alumno": "Río de Lille Contreras Torres", "tutor": "Contreraj González Luis Eduardo", "tel": "9932518487", "mes": "Mayo", "s1": "28 may - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "2° Primaria", "alumno": "Valentina Rodríguez Morales", "tutor": "Morales Lara Viridiana", "tel": "9933779094", "mes": "Junio", "s1": "01 jun - $100", "s2": "01 jun - $100", "s3": "", "s4": "", "s5": ""},
+            {"grado": "2° Primaria", "alumno": "Aitana Julieth Valencia de la Cruz", "tutor": "De la Cruz López Fátima del Rosario", "tel": "9933232077", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "2° Primaria", "alumno": "Karla Noemí López Canche", "tutor": "Canche Rodríguez Katia del Carmen", "tel": "9932128159", "mes": "Junio", "s1": "02 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "2° Primaria", "alumno": "Eduardo Gómez Patishtan", "tutor": "Gómez Patishtan Maira", "tel": "9935175915", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "2° Primaria", "alumno": "José Fernando Hernández Pérez", "tutor": "Pérez Coronado Carolina", "tel": "9935130191", "mes": "Junio", "s1": "Platos Vasos", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "2° Primaria", "alumno": "Melina Yamilet Pérez de la Cruz", "tutor": "Pérez López Miguel Ángel", "tel": "9935170888", "mes": "Junio", "s1": "Padre S.C.", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "2° Primaria", "alumno": "José Nicolás Rodríguez Fuente", "tutor": "Cruz Ro Ana", "tel": "9932594766", "mes": "Junio", "s1": "01 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "3° Primaria", "alumno": "Hernán Josué Esparza López", "tutor": "López Téllez Girón Coral", "tel": "9932479895", "mes": "Mayo", "s1": "28 may - $150", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "3° Primaria", "alumno": "Diego Maximiliano García Cruz", "tutor": "Cruz Domínguez Fernanda", "tel": "9935458222", "mes": "Junio", "s1": "02 jun - $200", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "3° Primaria", "alumno": "Erick Didier Olán Martínez", "tutor": "Martínez Montejo Cristina Ibset", "tel": "9934515420", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "3° Primaria", "alumno": "Valeria López García", "tutor": "García Hernández Martha Isabel", "tel": "9931769231", "mes": "Mayo", "s1": "28 may - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "3° Primaria", "alumno": "Moisés Pérez Colina", "tutor": "Colina Quevedo Ariana", "tel": "9934211152", "mes": "Junio", "s1": "01 jun - $100", "s2": "01 jun - $100", "s3": "", "s4": "", "s5": ""},
+            {"grado": "3° Primaria", "alumno": "Ángel Arias Romero", "tutor": "Romero Corona Areli", "tel": "", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "3° Primaria", "alumno": "Alexis Daniel Rodríguez Silvan", "tutor": "Kati Silvan", "tel": "9932179058", "mes": "Junio", "s1": "01 jun - $200", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Germán Samuel Esparza López", "tutor": "López Téllez Girón Coral", "tel": "9932479895", "mes": "Mayo", "s1": "28 may - $150", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Vannia Alessandra Robles Zapata", "tutor": "Zapata Herrera Armando Juventino", "tel": "9931041478", "mes": "Mayo", "s1": "28 may - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Abner Isaí Hernández Jiménez", "tutor": "Jiménez Jiménez Paula", "tel": "9933973355", "mes": "Mayo/Junio", "s1": "28 may - $150", "s2": "04 jun - $150", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Moisés Ramírez de la Cruz", "tutor": "De la Cruz Burelo Mariana", "tel": "9931597485", "mes": "Mayo", "s1": "28 may - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Arick Asiel Pérez Hernández", "tutor": "Hernández Cruz Elisa Zurisadai", "tel": "9931997999", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Fabiola Guadalupe Jiménez Rodríguez", "tutor": "Rodríguez Rodríguez María Luisa", "tel": "9936218666", "mes": "Junio", "s1": "01 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Abigail Gómez Escalante", "tutor": "Escalante Valdez Mayra Alejandra", "tel": "9932360762", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Valentina Morales Lara", "tutor": "Lara Acopa Valeria del Carmen", "tel": "9932801451", "mes": "Junio", "s1": "01 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Ángel Franklin Cerino Ricárdez", "tutor": "Ricárdez Pérez Esmeralda", "tel": "9602231874", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Jesús Adrián Ricárdez Pérez", "tutor": "Ricárdez Pérez Esmeralda", "tel": "", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Rosa Yaneth López Díaz", "tutor": "Díaz Arcos Angélica", "tel": "9935137437", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "4° Primaria", "alumno": "Prisila Gómez Patishtan", "tutor": "Gómez Patishtan Maria", "tel": "9935175915", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Jesús Mateo Jiménez López", "tutor": "López García Carolina", "tel": "9932770049", "mes": "Mayo", "s1": "28 may - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Gael Isaí Pérez Hernández", "tutor": "Hernández Cruz Elisa Zurisadai", "tel": "9931997999", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Jonathan Elian Montejo Sánchez", "tutor": "Sánchez Pérez Ana Laura", "tel": "9932115644", "mes": "Mayo", "s1": "28 may - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Nathaly Rodríguez Sánchez", "tutor": "Sánchez Gómez Viridiana", "tel": "9933596421", "mes": "Mayo", "s1": "29 may - $100", "s2": "29 may - $100", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Allison Mishell Guzmán Romo", "tutor": "Romo Vertiz Karen Mishell", "tel": "9933641851", "mes": "Junio", "s1": "03 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Lili Yoatzin García Pérez", "tutor": "Pérez Pérez Yazmín", "tel": "9933832374", "mes": "Mayo/Junio", "s1": "28 may - $100", "s2": "02 jun - $100", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Margarita Yazmín Cervera Márquez", "tutor": "Cervera Baños Luis Roger", "tel": "9934254993", "mes": "Junio", "s1": "01 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Diego Jesús De Dios Fernández", "tutor": "Fernández Bayona Cintia María", "tel": "9933188966", "mes": "Junio", "s1": "01 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Bryan Daniel De la Cruz Cruz", "tutor": "Cruz de la Cruz Claudia Janeth", "tel": "9933979374", "mes": "Junio", "s1": "07 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Maximiliano Hernández Mondragón", "tutor": "Mondragón de la Cruz Blanca Inés", "tel": "9934850290", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Faustino de Jesús Pineda Pérez", "tutor": "Pérez Sánchez María de Jesús", "tel": "9932109972", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Ximena Roxana Ortiz Jiménez", "tutor": "Ortiz Jiménez María Gertrudis", "tel": "9933897948", "mes": "Junio", "s1": "01 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "María Fernanda Martínez Jiménez", "tutor": "Jiménez González Estefanía", "tel": "9932217033", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Adriana Griselda Crisóstomo Hernández", "tutor": "Hernández Zapata Susana", "tel": "", "mes": "Junio", "s1": "", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "5° Primaria", "alumno": "Keisi Kayanndra Cruz López", "tutor": "López López Basilia", "tel": "9932281968", "mes": "Mayo", "s1": "28 may - BAJA", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "6° Primaria", "alumno": "Nuvehy Priscila García Cruz", "tutor": "Cruz Domínguez Fernanda", "tel": "9935458222", "mes": "Junio", "s1": "02 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "6° Primaria", "alumno": "Alejandro Etienne Uziel Pérez Domínguez", "tutor": "Pérez Aguilar Juan Manuel Alejandro", "tel": "9933961989", "mes": "Junio", "s1": "Salió del Grupo", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "6° Primaria", "alumno": "Citlally Sugey Velázquez Palma", "tutor": "Palma Hernández Rosalba", "tel": "9931194349", "mes": "Junio", "s1": "01 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "6° Primaria", "alumno": "Angely Isabel Vidal Pedrero", "tutor": "Pedrero Castillo Shirley", "tel": "9933882857", "mes": "Junio", "s1": "02 jun - $100 (transf)", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "6° Primaria", "alumno": "Matías Rabonales Romero", "tutor": "Romero Aquino Candelaria Gpe.", "tel": "9932522261", "mes": "Junio", "s1": "02 jun - $100 (transf)", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "6° Primaria", "alumno": "Elisa Hernández Torres", "tutor": "Torres Reyes Yuri Leticia", "tel": "9931202264", "mes": "Junio", "s1": "08 jun - $100 (transf)", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "6° Primaria", "alumno": "Neymar Alejandro Luna del Valle", "tutor": "Del Valle Morales Cinthya Alejandra", "tel": "9935010204", "mes": "Junio", "s1": "02 jun - $100 (transf)", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "6° Primaria", "alumno": "Elizabeth Suleyma Contreras Antonio", "tutor": "Antonio Vázquez Alma Yulma", "tel": "9935161641", "mes": "Junio", "s1": "01 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "6° Primaria", "alumno": "Nicolás Velasco Díaz", "tutor": "Díaz Díaz Isabel", "tel": "9931130429", "mes": "Junio", "s1": "09 jun - $100", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "6° Primaria", "alumno": "Emilio Sosa Cruz", "tutor": "Cruz Morales Alma Reyes", "tel": "9934333602", "mes": "Junio", "s1": "02 jun - $100 (transf)", "s2": "", "s3": "", "s4": "", "s5": ""},
+            {"grado": "6° Primaria", "alumno": "Alix Daniela Rodríguez Silvan", "tutor": "Kati Silvan", "tel": "9932179058", "mes": "Junio", "s1": "01 jun - $200", "s2": "", "s3": "", "s4": "", "s5": ""}
+        ];
+
+        let alumnos = JSON.parse(localStorage.getItem('alumnos')) || initialStudents;
+        let transacciones = JSON.parse(localStorage.getItem('transacciones')) || [];
+
+        // 2. Control de pestañas
+        window.switchTab = function(tabId) {
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+            document.getElementById('tab-' + tabId).classList.remove('hidden');
+
+            document.querySelectorAll('.nav-tab').forEach(b => {
+                b.classList.remove('bg-white/10', 'text-white');
+                b.classList.add('text-slate-300');
+            });
+
+            const activeBtn = document.getElementById('btn-' + tabId);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white/10', 'text-white');
+                activeBtn.classList.remove('text-slate-300');
+            }
+
+            const titles = {
+                'resumen': 'Resumen Financiero',
+                'alumnos': 'Control de Alumnos e Inscripciones',
+                'ingresos': 'Gestión de Ingresos de Cocina',
+                'egresos': 'Control de Gastos y Proveedores',
+                'mermas': 'Registro de Mermas y Desperdicios'
+            };
+            document.getElementById('page-title').innerText = titles[tabId];
+        };
+
+        // 3. Render de tabla alumnos
+        window.renderAlumnos = function() {
+            const tbody = document.getElementById('tbody-alumnos');
+            const filterGrado = document.getElementById('filter-grado').value;
+            const searchVal = document.getElementById('search-alumno').value.toLowerCase();
+            
+            tbody.innerHTML = '';
+
+            alumnos.forEach((al, index) => {
+                if (filterGrado !== 'TODOS' && al.grado !== filterGrado) return;
+                if (searchVal && !al.alumno.toLowerCase().includes(searchVal) && !al.tutor.toLowerCase().includes(searchVal)) return;
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3"><span class="px-2 py-0.5 rounded bg-blue-50 text-blue-700 font-semibold text-[10px]">${al.grado}</span></td>
+                    <td class="p-3 font-semibold text-navy-base">${al.alumno}</td>
+                    <td class="p-3 text-slate-500">${al.tutor || '-'}</td>
+                    <td class="p-3 text-slate-500">${al.tel || '-'}</td>
+                    <td class="p-3 text-slate-500">${al.mes}</td>
+                    <td class="p-1"><input type="text" class="w-full text-center p-1 border border-transparent hover:border-slate-300 rounded focus:border-navy-base focus:bg-white text-xs bg-slate-50" value="${al.s1}" onchange="updateAlumnoSemana(${index}, 's1', this.value)"></td>
+                    <td class="p-1"><input type="text" class="w-full text-center p-1 border border-transparent hover:border-slate-300 rounded focus:border-navy-base focus:bg-white text-xs bg-slate-50" value="${al.s2}" onchange="updateAlumnoSemana(${index}, 's2', this.value)"></td>
+                    <td class="p-1"><input type="text" class="w-full text-center p-1 border border-transparent hover:border-slate-300 rounded focus:border-navy-base focus:bg-white text-xs bg-slate-50" value="${al.s3}" onchange="updateAlumnoSemana(${index}, 's3', this.value)"></td>
+                    <td class="p-1"><input type="text" class="w-full text-center p-1 border border-transparent hover:border-slate-300 rounded focus:border-navy-base focus:bg-white text-xs bg-slate-50" value="${al.s4}" onchange="updateAlumnoSemana(${index}, 's4', this.value)"></td>
+                    <td class="p-1"><input type="text" class="w-full text-center p-1 border border-transparent hover:border-slate-300 rounded focus:border-navy-base focus:bg-white text-xs bg-slate-50" value="${al.s5}" onchange="updateAlumnoSemana(${index}, 's5', this.value)"></td>
+                `;
+                tbody.appendChild(tr);
+            });
+        };
+
+        window.updateAlumnoSemana = function(index, semanaKey, value) {
+            alumnos[index][semanaKey] = value;
+            localStorage.setItem('alumnos', JSON.stringify(alumnos));
+        };
+
+        // 4. Gestión de transacciones
+        window.addTransaccion = function(tipo) {
+            const prefix = tipo.toLowerCase();
+            const fecha = document.getElementById(`${prefix}-fecha`).value;
+            const concepto = document.getElementById(`${prefix}-concepto`).value;
+            const monto = parseFloat(document.getElementById(`${prefix}-monto`).value);
+
+            if (!concepto || isNaN(monto) || monto <= 0) {
+                alert('Por favor ingresa un concepto válido y un monto mayor a 0.');
+                return;
+            }
+
+            const nuevaTransaccion = { id: Date.now(), fecha, tipo, concepto, monto };
+            transacciones.push(nuevaTransaccion);
+            localStorage.setItem('transacciones', JSON.stringify(transacciones));
+
+            document.getElementById(`${prefix}-concepto`).value = '';
+            document.getElementById(`${prefix}-monto`).value = '';
+
+            recalcularTotales();
+            renderTransacciones();
+        };
+
+        window.deleteTransaccion = function(id) {
+            if(confirm('¿Deseas eliminar este registro?')) {
+                transacciones = transacciones.filter(t => t.id !== id);
+                localStorage.setItem('transacciones', JSON.stringify(transacciones));
+                recalcularTotales();
+                renderTransacciones();
+            }
+        };
+
+        function recalcularTotales() {
+            let totalIngresos = 0, totalEgresos = 0, totalMermas = 0;
+
+            transacciones.forEach(t => {
+                if (t.tipo === 'Ingreso') totalIngresos += t.monto;
+                if (t.tipo === 'Egreso') totalEgresos += t.monto;
+                if (t.tipo === 'Merma') totalMermas += t.monto;
+            });
+
+            const balanceNeto = totalIngresos - totalEgresos - totalMermas;
+
+            document.getElementById('lbl-total-ingresos').innerText = `$${totalIngresos.toFixed(2)}`;
+            document.getElementById('lbl-total-egresos').innerText = `$${totalEgresos.toFixed(2)}`;
+            document.getElementById('lbl-total-mermas').innerText = `$${totalMermas.toFixed(2)}`;
+            
+            const lblBalance = document.getElementById('lbl-balance-neto');
+            lblBalance.innerText = `$${balanceNeto.toFixed(2)}`;
+            lblBalance.className = balanceNeto < 0 ? 'font-heading font-extrabold text-2xl text-red-600 mt-1' : 'font-heading font-extrabold text-2xl text-navy-base mt-1';
+        }
+
+        function renderTransacciones() {
+            const tIngresos = document.getElementById('tbody-ingresos-list');
+            const tEgresos = document.getElementById('tbody-egresos-list');
+            const tMermas = document.getElementById('tbody-mermas-list');
+            const tRecientes = document.getElementById('tbody-recientes');
+
+            if(tIngresos) tIngresos.innerHTML = '';
+            if(tEgresos) tEgresos.innerHTML = '';
+            if(tMermas) tMermas.innerHTML = '';
+            if(tRecientes) tRecientes.innerHTML = '';
+
+            const sorted = [...transacciones].sort((a,b) => b.id - a.id);
+
+            sorted.forEach(t => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3.5 text-slate-500">${t.fecha}</td>
+                    <td class="p-3.5 font-medium text-slate-800">${t.concepto}</td>
+                    <td class="p-3.5 font-bold text-navy-base">$${t.monto.toFixed(2)}</td>
+                    <td class="p-3.5 text-right"><button class="text-[11px] font-bold text-red-600 hover:text-red-800 cursor-pointer" onclick="deleteTransaccion(${t.id})"><i class="fa-solid fa-trash"></i></button></td>
+                `;
+
+                if (t.tipo === 'Ingreso' && tIngresos) tIngresos.appendChild(tr);
+                if (t.tipo === 'Egreso' && tEgresos) tEgresos.appendChild(tr);
+                if (t.tipo === 'Merma' && tMermas) tMermas.appendChild(tr);
+            });
+
+            sorted.slice(0, 8).forEach(t => {
+                let badgeClass = 'bg-emerald-50 text-emerald-700';
+                if(t.tipo === 'Egreso') badgeClass = 'bg-blue-50 text-blue-700';
+                if(t.tipo === 'Merma') badgeClass = 'bg-amber-50 text-amber-700';
+
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-3.5 text-slate-500">${t.fecha}</td>
+                    <td class="p-3.5"><span class="px-2 py-0.5 rounded text-[10px] font-bold ${badgeClass}">${t.tipo}</span></td>
+                    <td class="p-3.5 font-medium text-slate-800">${t.concepto}</td>
+                    <td class="p-3.5 font-bold text-navy-base text-right">$${t.monto.toFixed(2)}</td>
+                `;
+                if(tRecientes) tRecientes.appendChild(tr);
+            });
+        }
+
+        // 5. Inicialización de sesión y fechas
+        document.addEventListener('DOMContentLoaded', async function() {
+            const SUPABASE_URL = 'https://jsvrzsyzigwcgrkgwwgn.supabase.co';
+            const SUPABASE_ANON_KEY = 'sb_publishable_Mt83kGrMR6GWSQXZkQmcUw_IKQpfkts';
+            const sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+            // Validar sesión
+            const { data: { session } } = await sbClient.auth.getSession();
+            if (!session) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Cargar datos del usuario
+            const { data: profile } = await sbClient
+                .from('profiles')
+                .select('nombre, empresa')
+                .eq('id', session.user.id)
+                .single();
+
+            if (profile) {
+                document.getElementById('userFullName').textContent = profile.nombre || session.user.email;
+                document.getElementById('userCompany').textContent = profile.empresa || 'Plantel Escolar';
+            } else {
+                document.getElementById('userFullName').textContent = session.user.email;
+            }
+
+            // Cerrar sesión
+            document.getElementById('logoutBtn').addEventListener('click', async () => {
+                await sbClient.auth.signOut();
+                window.location.href = 'login.html';
+            });
+
+            // Establecer fechas actuales
+            const today = new Date().toISOString().split('T')[0];
+            ['ingreso-fecha', 'egreso-fecha', 'merma-fecha'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.value = today;
+            });
+
+            if (!localStorage.getItem('alumnos')) {
+                localStorage.setItem('alumnos', JSON.stringify(alumnos));
+            }
+
+            recalcularTotales();
+            renderAlumnos();
+            renderTransacciones();
+        });
+    </script>
+
+</body>
+</html>

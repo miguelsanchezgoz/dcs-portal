@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistemas CONTPAQi | Digital Core Solutions</title>
+    
+    <!-- Fuentes Tipográficas Minimalistas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            base: '#0D1B2A',
+                            dark: '#142132',
+                            surface: '#1B263B',
+                            border: '#2A3B52',
+                            lightborder: '#E2E8F0',
+                            muted: '#94A3B8',
+                            light: '#F4F7FA'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white text-slate-900 font-sans antialiased flex flex-col min-h-screen selection:bg-navy-base selection:text-white">
+
+    <!-- 1. TOP BAR -->
+    <div class="bg-navy-base text-slate-300 text-xs py-2.5 px-4 border-b border-navy-border">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-6">
+                <span class="flex items-center gap-2"><i class="fa-solid fa-phone text-slate-400"></i> Atención a Clientes: <strong class="text-white">(993) 504-0401</strong></span>
+                <span class="hidden md:flex items-center gap-2"><i class="fa-solid fa-envelope text-slate-400"></i> contacto@digitalcoresolutions.com.mx</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-slate-400">Villahermosa, Tabasco</span>
+                <a href="https://wa.me/5219935040401" target="_blank" class="text-white hover:text-slate-300 flex items-center gap-1 font-semibold">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. BARRA DE NAVEGACIÓN -->
+    <header class="bg-white sticky top-0 z-40 shadow-sm border-b border-navy-lightborder">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="logo.png" alt="Digital Core Solutions" class="h-11 w-auto object-contain">
+                    <div class="flex flex-col">
+                        <span class="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-navy-base leading-tight">
+                            DIGITAL CORE
+                        </span>
+                        <span class="text-[10px] tracking-[0.25em] text-slate-500 font-bold uppercase">
+                            SOLUTIONS
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Menú Principal -->
+                <nav class="hidden xl:flex items-center space-x-7 text-sm font-semibold text-slate-600">
+                    <a href="index.html" class="hover:text-navy-base transition">Inicio</a>
+                    <a href="nosotros.html" class="hover:text-navy-base transition">Quiénes Somos</a>
+                    <a href="contpaqi.html" class="text-navy-base border-b-2 border-navy-base pb-1">CONTPAQi</a>
+                    <a href="cursos.html" class="hover:text-navy-base transition flex items-center gap-1">
+                        Cursos <span class="bg-slate-100 text-slate-800 text-[10px] px-1.5 py-0.2 rounded border border-slate-300 font-bold">Nuevo</span>
+                    </a>
+                    <a href="servicios.html" class="hover:text-navy-base transition">Servicios</a>
+                    <a href="soporte.html" class="hover:text-navy-base transition">Soporte</a>
+                    <a href="desarrollo.html" class="hover:text-navy-base transition">Desarrollo</a>
+                    <a href="contacto.html" class="hover:text-navy-base transition">Contacto</a>
+                </nav>
+
+                <!-- Botón Portal Clientes -->
+                <div class="flex items-center gap-3">
+                    <a href="login.html" class="bg-navy-base hover:bg-navy-dark text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded transition shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-lock text-slate-400"></i> Portal Clientes
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        
+        <!-- HEADER DE PÁGINA -->
+        <section class="bg-navy-base text-white py-16 lg:py-20 border-b border-navy-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <span class="inline-block bg-navy-dark text-slate-300 text-xs font-semibold px-3 py-1 rounded mb-3 uppercase tracking-wider border border-navy-border">
+                    Distribuidor & Consultor Autorizado
+                </span>
+                <h1 class="font-heading text-3xl sm:text-5xl font-extrabold text-white">Ecosistema CONTPAQi</h1>
+                <p class="text-slate-300 text-sm sm:text-base mt-3 max-w-2xl">Licenciamiento oficial, timbrado ilimitado, renovaciones, migraciones y soporte técnico especializado para toda la suite.</p>
+            </div>
+        </section>
+
+        <!-- CATÁLOGO PRINCIPAL DE SISTEMAS -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    
+                    <!-- 1. CONTABILIDAD -->
+                    <div class="border border-navy-lightborder rounded-xl p-8 bg-navy-light hover:border-navy-base transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-white text-navy-base flex items-center justify-center text-xl rounded border border-navy-lightborder">
+                                    <i class="fa-solid fa-calculator"></i>
+                                </div>
+                                <span class="bg-white text-slate-700 text-xs font-semibold px-3 py-1 rounded border border-navy-lightborder">Licencia Anual / Tradicional</span>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-navy-base mb-3">CONTPAQi Contabilidad</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mb-6">
+                                El estándar contable en México. Administra pólizas, contabilidad electrónica, generación de DIOT, descarga e integración automática de XML directamente del SAT.
+                            </p>
+                            <ul class="text-xs text-slate-700 space-y-2 mb-6">
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Descarga masiva y validación de CFDI 4.0</li>
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Reportes financieros y balances al instante</li>
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Multempresa y multimoneda</li>
+                            </ul>
+                        </div>
+                        <div class="pt-4 border-t border-navy-lightborder flex items-center justify-between">
+                            <a href="https://wa.me/5219930000000?text=Hola,%20deseo%20cotizar%20CONTPAQi%20Contabilidad" target="_blank" class="bg-navy-base hover:bg-navy-dark text-white text-xs font-semibold px-5 py-2.5 rounded transition">
+                                Cotizar Licencia
+                            </a>
+                            <a href="contacto.html" class="text-navy-base font-semibold text-xs hover:underline">Solicitar Demo &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- 2. NÓMINAS -->
+                    <div class="border border-navy-lightborder rounded-xl p-8 bg-navy-light hover:border-navy-base transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-white text-navy-base flex items-center justify-center text-xl rounded border border-navy-lightborder">
+                                    <i class="fa-solid fa-users-gear"></i>
+                                </div>
+                                <span class="bg-white text-slate-700 text-xs font-semibold px-3 py-1 rounded border border-navy-lightborder">Timbrado Ilimitado</span>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-navy-base mb-3">CONTPAQi Nóminas</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mb-6">
+                                Control integral de recursos humanos y nómina. Realiza el cálculo preciso de sueldos, retenciones ISR, cuotas IMSS, INFONAVIT, finiquitos y aguinaldos.
+                            </p>
+                            <ul class="text-xs text-slate-700 space-y-2 mb-6">
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Timbrado masivo sin costo por recibo</li>
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Conexión directa con IDSE y SUA</li>
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Módulo de cálculo de PTU y finiquitos</li>
+                            </ul>
+                        </div>
+                        <div class="pt-4 border-t border-navy-lightborder flex items-center justify-between">
+                            <a href="https://wa.me/5219930000000?text=Hola,%20deseo%20cotizar%20CONTPAQi%20Nóminas" target="_blank" class="bg-navy-base hover:bg-navy-dark text-white text-xs font-semibold px-5 py-2.5 rounded transition">
+                                Cotizar Licencia
+                            </a>
+                            <a href="contacto.html" class="text-navy-base font-semibold text-xs hover:underline">Solicitar Demo &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- 3. COMERCIAL PREMIUM -->
+                    <div class="border border-navy-lightborder rounded-xl p-8 bg-navy-light hover:border-navy-base transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-white text-navy-base flex items-center justify-center text-xl rounded border border-navy-lightborder">
+                                    <i class="fa-solid fa-boxes-stacked"></i>
+                                </div>
+                                <span class="bg-white text-slate-700 text-xs font-semibold px-3 py-1 rounded border border-navy-lightborder">Facturación & Control De Inventario</span>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-navy-base mb-3">CONTPAQi Comercial Premium</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mb-6">
+                                Gestión operativa y administrativa total: compras, cuentas por cobrar y pagar, inventarios multialmacén, códigos de barra y facturación 4.0.
+                            </p>
+                            <ul class="text-xs text-slate-700 space-y-2 mb-6">
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Facturación, notas de crédito y complementos de pago</li>
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Control exacto de existencias y costos</li>
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Integración transparente con Contabilidad y Bancos</li>
+                            </ul>
+                        </div>
+                        <div class="pt-4 border-t border-navy-lightborder flex items-center justify-between">
+                            <a href="https://wa.me/5219930000000?text=Hola,%20deseo%20cotizar%20CONTPAQi%20Comercial" target="_blank" class="bg-navy-base hover:bg-navy-dark text-white text-xs font-semibold px-5 py-2.5 rounded transition">
+                                Cotizar Licencia
+                            </a>
+                            <a href="contacto.html" class="text-navy-base font-semibold text-xs hover:underline">Solicitar Demo &rarr;</a>
+                        </div>
+                    </div>
+
+                    <!-- 4. BANCOS -->
+                    <div class="border border-navy-lightborder rounded-xl p-8 bg-navy-light hover:border-navy-base transition flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-12 h-12 bg-white text-navy-base flex items-center justify-center text-xl rounded border border-navy-lightborder">
+                                    <i class="fa-solid fa-building-columns"></i>
+                                </div>
+                                <span class="bg-white text-slate-700 text-xs font-semibold px-3 py-1 rounded border border-navy-lightborder">Flujo de Efectivo</span>
+                            </div>
+                            <h3 class="font-heading font-bold text-xl text-navy-base mb-3">CONTPAQi Bancos</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mb-6">
+                                Controla con precisión los ingresos, egresos y proyecciones financieras. Automatiza la conciliación bancaria clasificando movimientos por cuenta.
+                            </p>
+                            <ul class="text-xs text-slate-700 space-y-2 mb-6">
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Conciliación automática de estados de cuenta</li>
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Control de cheques y transferencias electrónicas</li>
+                                <li><i class="fa-solid fa-check text-navy-base mr-2"></i> Proyección de cobranza y pagos a proveedores</li>
+                            </ul>
+                        </div>
+                        <div class="pt-4 border-t border-navy-lightborder flex items-center justify-between">
+                            <a href="https://wa.me/5219930000000?text=Hola,%20deseo%20cotizar%20CONTPAQi%20Bancos" target="_blank" class="bg-navy-base hover:bg-navy-dark text-white text-xs font-semibold px-5 py-2.5 rounded transition">
+                                Cotizar Licencia
+                            </a>
+                            <a href="contacto.html" class="text-navy-base font-semibold text-xs hover:underline">Solicitar Demo &rarr;</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+        <!-- BANNER DE ASISTENCIA Y TIMBRADO -->
+        <section class="py-16 bg-navy-base text-white border-t border-navy-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-3xl mx-auto">
+                <h2 class="font-heading font-extrabold text-2xl sm:text-3xl text-white mb-4">¿Necesitas renovar o migrar tu sistema CONTPAQi?</h2>
+                <p class="text-slate-300 text-sm leading-relaxed mb-8">
+                    Realizamos actualizaciones de versión sin pérdida de datos, cambio de servidores, timbrado ilimitado y configuración de red multiusuario.
+                </p>
+                <a href="contacto.html" class="inline-block bg-white hover:bg-slate-100 text-navy-base font-semibold px-8 py-3.5 rounded text-xs uppercase tracking-wider transition shadow-sm">
+                    Contactar un Consultor Certificado
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER CORPORATIVO -->
+    <footer class="bg-navy-base text-slate-400 text-xs border-t border-navy-border pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 pb-8 border-b border-navy-border">
+                
+                <div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <img src="logo.png" alt="Logo" class="h-8 w-auto">
+                        <span class="font-heading font-bold text-sm text-white">DIGITAL CORE SOLUTIONS</span>
+                    </div>
+                    <p class="text-slate-400 text-[11px] leading-relaxed font-normal">
+                        Consultoría tecnológica, soporte especializado en sistemas CONTPAQi, conectividad remota e ingeniería de software para empresas.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-semibold text-white uppercase text-xs mb-3">Sistemas</h4>
+                    <ul class="space-y-1.5 text-slate-400">
+                        <li><a href="contpaqi.html" class="hover:text-white">CONTPAQi Contabilidad</a></li>
+                        <li><a href="contpaqi.html" class="hover:text-white">CONTPAQi Nóminas</a></li>
+                        <li><a href="contpaqi.html" class="hover:text-white">CONTPAQi Comercial</a></li>
+                        <li><a href="contpaqi.html" class="hover:text-white">CONTPAQi Bancos</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-semibold text-white uppercase text-xs mb-3">Soluciones</h4>
+                    <ul class="space-y-1.5 text-slate-400">
+                        <li><a href="servicios.html" class="hover:text-white">CoreConnect Desktop</a></li>
+                        <li><a href="cursos.html" class="hover:text-white">Capacitación y Cursos</a></li>
+                        <li><a href="soporte.html" class="hover:text-white">Pólizas de Soporte</a></li>
+                        <li><a href="desarrollo.html" class="hover:text-white">Software a Medida</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-semibold text-white uppercase text-xs mb-3">Contacto Directo</h4>
+                    <p class="text-slate-400 text-[11px] mb-2">contacto@digitalcoresolutions.com.mx</p>
+                    <p class="text-slate-400 text-[11px] mb-4">Soporte y Ventas a nivel nacional</p>
+                    <a href="login.html" class="inline-block bg-navy-dark hover:bg-navy-surface text-slate-200 font-semibold px-3 py-1.5 rounded border border-navy-border">
+                        <i class="fa-solid fa-lock mr-1 text-slate-400"></i> Portal de Usuarios
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px]">
+                <p>&copy; 2026 Digital Core Solutions. Todos los derechos reservados.</p>
+                <div class="flex gap-4">
+                    <a href="contacto.html" class="hover:text-white">Aviso de Privacidad</a>
+                    <a href="contacto.html" class="hover:text-white">Términos del Servicio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTÓN DE WHATSAPP -->
+    <a href="https://wa.me/5219930000000" target="_blank" class="fixed bottom-6 right-6 bg-navy-base hover:bg-navy-dark text-white border border-navy-border w-14 h-14 rounded-full flex items-center justify-center shadow-2xl text-2xl z-50 transition transform hover:scale-105" title="Contactar por WhatsApp">
+        <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+    </a>
+
+</body>
+</html>

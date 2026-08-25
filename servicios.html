@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Servicios & Soluciones TI | Digital Core Solutions</title>
+    
+    <!-- Fuentes Tipográficas Minimalistas -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Inter"', 'sans-serif'],
+                        heading: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        navy: {
+                            base: '#0D1B2A',
+                            dark: '#142132',
+                            surface: '#1B263B',
+                            border: '#2A3B52',
+                            lightborder: '#E2E8F0',
+                            muted: '#94A3B8',
+                            light: '#F4F7FA'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white text-slate-900 font-sans antialiased flex flex-col min-h-screen selection:bg-navy-base selection:text-white">
+
+    <!-- 1. TOP BAR -->
+    <div class="bg-navy-base text-slate-300 text-xs py-2.5 px-4 border-b border-navy-border">
+        <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+            <div class="flex items-center gap-6">
+                <span class="flex items-center gap-2"><i class="fa-solid fa-phone text-slate-400"></i> Atención a Clientes: <strong class="text-white">(993) 504-0401</strong></span>
+                <span class="hidden md:flex items-center gap-2"><i class="fa-solid fa-envelope text-slate-400"></i> contacto@digitalcoresolutions.com.mx</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span class="text-slate-400">Villahermosa, Tabasco</span>
+                <a href="https://wa.me/5219935040401" target="_blank" class="text-white hover:text-slate-300 flex items-center gap-1 font-semibold">
+                    <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. BARRA DE NAVEGACIÓN -->
+    <header class="bg-white sticky top-0 z-40 shadow-sm border-b border-navy-lightborder">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <a href="index.html" class="flex items-center gap-3">
+                    <img src="logo.png" alt="Digital Core Solutions" class="h-11 w-auto object-contain">
+                    <div class="flex flex-col">
+                        <span class="font-heading font-extrabold text-lg sm:text-xl tracking-tight text-navy-base leading-tight">
+                            DIGITAL CORE
+                        </span>
+                        <span class="text-[10px] tracking-[0.25em] text-slate-500 font-bold uppercase">
+                            SOLUTIONS
+                        </span>
+                    </div>
+                </a>
+
+                <!-- Menú Principal -->
+                <nav class="hidden xl:flex items-center space-x-7 text-sm font-semibold text-slate-600">
+                    <a href="index.html" class="hover:text-navy-base transition">Inicio</a>
+                    <a href="nosotros.html" class="hover:text-navy-base transition">Quiénes Somos</a>
+                    <a href="contpaqi.html" class="hover:text-navy-base transition">CONTPAQi</a>
+                    <a href="cursos.html" class="hover:text-navy-base transition flex items-center gap-1">
+                        Cursos <span class="bg-slate-100 text-slate-800 text-[10px] px-1.5 py-0.2 rounded border border-slate-300 font-bold">Nuevo</span>
+                    </a>
+                    <a href="servicios.html" class="text-navy-base border-b-2 border-navy-base pb-1">Servicios</a>
+                    <a href="soporte.html" class="hover:text-navy-base transition">Soporte</a>
+                    <a href="desarrollo.html" class="hover:text-navy-base transition">Desarrollo</a>
+                    <a href="contacto.html" class="hover:text-navy-base transition">Contacto</a>
+                </nav>
+
+                <!-- Botón Portal Clientes -->
+                <div class="flex items-center gap-3">
+                    <a href="login.html" class="bg-navy-base hover:bg-navy-dark text-white text-xs sm:text-sm font-semibold px-5 py-2.5 rounded transition shadow-sm flex items-center gap-2">
+                        <i class="fa-solid fa-lock text-slate-400"></i> Portal Clientes
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        
+        <!-- HEADER DE PÁGINA -->
+        <section class="bg-navy-base text-white py-16 lg:py-20 border-b border-navy-border">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <span class="inline-block bg-navy-dark text-slate-300 text-xs font-semibold px-3 py-1 rounded mb-3 uppercase tracking-wider border border-navy-border">
+                    Infraestructura & Software
+                </span>
+                <h1 class="font-heading text-3xl sm:text-5xl font-extrabold text-white">Servicios y Soluciones</h1>
+                <p class="text-slate-300 text-sm sm:text-base mt-3 max-w-2xl">Conectividad remota de alto rendimiento, servidores dedicados, arquitectura de red y respaldo corporativo de información.</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 1: CORECONNECT DESKTOP -->
+        <section class="py-20 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <div class="lg:col-span-7">
+                        <span class="text-slate-500 font-bold text-xs uppercase tracking-wider">Solución Exclusiva</span>
+                        <h2 class="font-heading font-extrabold text-2xl sm:text-4xl text-navy-base mt-2 mb-6">
+                            CoreConnect: Conexión remota rápida para tus sistemas de escritorio.
+                        </h2>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            <strong>CoreConnect</strong> permite a tus sucursales, directivos y contadores conectarse en multisesión a los sistemas CONTPAQi, ERPs o bases de datos instaladas en tu servidor principal.
+                        </p>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            Olvídate de pagar caras licencias de VPN, configuraciones complejas en routers o contratar servicios de IP pública fija que elevan tus costos mensuales.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-700 mb-8">
+                            <div class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-navy-base mt-0.5"></i>
+                                <span><strong>Multisesión simultánea:</strong> Varios usuarios trabajando al mismo tiempo.</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-navy-base mt-0.5"></i>
+                                <span><strong>Bajo consumo de datos:</strong> Funciona con cualquier conexión a Internet.</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-navy-base mt-0.5"></i>
+                                <span><strong>Cifrado punto a punto:</strong> Sesiones seguras y control de accesos.</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-navy-base mt-0.5"></i>
+                                <span><strong>Sin IP pública fija:</strong> Despliegue ágil en tu infraestructura actual.</span>
+                            </div>
+                        </div>
+
+                        <a href="https://wa.me/5219935040401?text=Hola,%20deseo%20solicitar%20una%20demostración%20de%20CoreConnect" target="_blank" class="inline-block bg-navy-base hover:bg-navy-dark text-white text-xs font-semibold px-6 py-3.5 rounded transition shadow-sm">
+                            Solicitar Demo CoreConnect
+                        </a>
+                    </div>
+
+                    <div class="lg:col-span-5 bg-navy-light border border-navy-lightborder p-8 rounded-xl">
+                        <h3 class="font-heading font-bold text-lg text-navy-base mb-4 border-b border-navy-lightborder pb-3">Comparativa de Conectividad</h3>
+                        <div class="space-y-4 text-xs">
+                            <div class="bg-white p-4 rounded border border-navy-lightborder">
+                                <span class="font-bold text-navy-base block mb-1">VPN Tradicional / IP Fija</span>
+                                <p class="text-slate-500">Costo mensual recurrente elevado, lentitud de apertura en bases de datos pesadas y dependencia del proveedor de Internet.</p>
+                            </div>
+                            <div class="bg-navy-base text-white p-4 rounded shadow-sm">
+                                <span class="font-bold text-white block mb-1">CoreConnect Desktop</span>
+                                <p class="text-slate-300">Respuesta instantánea a nivel local, sin renta de IPs fijas, acceso seguro desde cualquier ubicación y soporte técnico directo.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: COREGUARD BACKUP -->
+        <section class="py-20 bg-navy-light border-t border-navy-lightborder">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                    
+                    <div class="lg:col-span-5 bg-white border border-navy-lightborder p-8 rounded-xl order-2 lg:order-1">
+                        <h3 class="font-heading font-bold text-lg text-navy-base mb-4 border-b border-navy-lightborder pb-3">Seguridad y Respaldo Inteligente</h3>
+                        <div class="space-y-4 text-xs">
+                            <div class="bg-navy-light p-4 rounded border border-navy-lightborder">
+                                <span class="font-bold text-navy-base block mb-1">Cifrado de Alta Gama</span>
+                                <p class="text-slate-600">Encriptación de archivos para resguardar bases de datos fiscales y contables ante amenazas de ransomware.</p>
+                            </div>
+                            <div class="bg-navy-base text-white p-4 rounded shadow-sm">
+                                <span class="font-bold text-white block mb-1">Restauración Rápida</span>
+                                <p class="text-slate-300">Recuperación de versiones en minutos con historial organizado y verificación automática de integridad.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lg:col-span-7 order-1 lg:order-2">
+                        <span class="text-slate-500 font-bold text-xs uppercase tracking-wider">Protección de Datos</span>
+                        <h2 class="font-heading font-extrabold text-2xl sm:text-4xl text-navy-base mt-2 mb-6">
+                            CoreGuard Backup: Automatización y respaldo continuo para tus bases de datos.
+                        </h2>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-4">
+                            <strong>CoreGuard Backup</strong> está diseñado para automatizar las copias de seguridad de tus sistemas CONTPAQi, bases de datos SQL Server y archivos críticos del servidor sin interrumpir la jornada laboral.
+                        </p>
+                        <p class="text-slate-600 text-sm leading-relaxed mb-6">
+                            Programa copias locales y sincronizaciones en la nube bajo esquemas de retención periódica para proteger el patrimonio informativo de tu organización.
+                        </p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs text-slate-700 mb-8">
+                            <div class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-navy-base mt-0.5"></i>
+                                <span><strong>Respaldos programados:</strong> Tareas automáticas diarias o por horas.</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-navy-base mt-0.5"></i>
+                                <span><strong>Soporte SQL Server nativo:</strong> Copias limpias sin detener servicios.</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-navy-base mt-0.5"></i>
+                                <span><strong>Sincronización cloud:</strong> Almacenamiento seguro fuera del servidor.</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <i class="fa-solid fa-check text-navy-base mt-0.5"></i>
+                                <span><strong>Reportes de ejecución:</strong> Notificaciones de estado automáticas.</span>
+                            </div>
+                        </div>
+
+                        <a href="https://wa.me/5219935040401?text=Hola,%20deseo%20solicitar%20información%20de%20CoreGuard%20Backup" target="_blank" class="inline-block bg-navy-base hover:bg-navy-dark text-white text-xs font-semibold px-6 py-3.5 rounded transition shadow-sm">
+                            Solicitar Información CoreGuard
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: SERVICIOS DE INFRAESTRUCTURA Y REDES -->
+        <section class="py-20 bg-white border-t border-navy-lightborder">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-slate-500 font-bold text-xs uppercase tracking-wider">Capacidades de TI</span>
+                    <h2 class="font-heading font-extrabold text-2xl sm:text-3xl text-navy-base mt-1">Infraestructura & Soluciones Complementarias</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- 1. Servidores Locales y Cloud -->
+                    <div class="bg-navy-light border border-navy-lightborder p-8 rounded-lg shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 bg-white text-navy-base flex items-center justify-center text-xl mb-6 rounded border border-navy-lightborder">
+                                <i class="fa-solid fa-server"></i>
+                            </div>
+                            <h3 class="font-heading font-bold text-base text-navy-base mb-2">Servidores Windows & Linux</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mb-4">
+                                Dimensionamiento, instalación y configuración de servidores dedicados para bases de datos SQL Server, controladores de dominio y almacenamiento centralizado.
+                            </p>
+                        </div>
+                        <a href="contacto.html" class="text-navy-base font-semibold text-xs hover:underline uppercase">Cotizar Servidor &rarr;</a>
+                    </div>
+
+                    <!-- 2. Respaldos Automatizados -->
+                    <div class="bg-navy-light border border-navy-lightborder p-8 rounded-lg shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 bg-white text-navy-base flex items-center justify-center text-xl mb-6 rounded border border-navy-lightborder">
+                                <i class="fa-solid fa-cloud-arrow-up"></i>
+                            </div>
+                            <h3 class="font-heading font-bold text-base text-navy-base mb-2">Respaldos en la Nube</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mb-4">
+                                Esquemas automatizados de respaldo para empresas. Garantiza la recuperación de bases de datos contables y comerciales ante fallas de disco o desastres.
+                            </p>
+                        </div>
+                        <a href="contacto.html" class="text-navy-base font-semibold text-xs hover:underline uppercase">Plan de Respaldo &rarr;</a>
+                    </div>
+
+                    <!-- 3. Redes y Cableado Estructurado -->
+                    <div class="bg-navy-light border border-navy-lightborder p-8 rounded-lg shadow-sm flex flex-col justify-between">
+                        <div>
+                            <div class="w-12 h-12 bg-white text-navy-base flex items-center justify-center text-xl mb-6 rounded border border-navy-lightborder">
+                                <i class="fa-solid fa-network-wired"></i>
+                            </div>
+                            <h3 class="font-heading font-bold text-base text-navy-base mb-2">Redes & Seguridad Perimetral</h3>
+                            <p class="text-slate-600 text-xs leading-relaxed mb-4">
+                                Instalación de redes locales de alta velocidad, balanceadores de carga para múltiples proveedores de Internet y firewalls para proteger tu red interna.
+                            </p>
+                        </div>
+                        <a href="contacto.html" class="text-navy-base font-semibold text-xs hover:underline uppercase">Diagnóstico de Red &rarr;</a>
+                    </div>
+
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER CORPORATIVO -->
+    <footer class="bg-navy-base text-slate-400 text-xs border-t border-navy-border pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8 pb-8 border-b border-navy-border">
+                
+                <div>
+                    <div class="flex items-center gap-2 mb-3">
+                        <img src="logo.png" alt="Logo" class="h-8 w-auto">
+                        <span class="font-heading font-bold text-sm text-white">DIGITAL CORE SOLUTIONS</span>
+                    </div>
+                    <p class="text-slate-400 text-[11px] leading-relaxed font-normal">
+                        Consultoría tecnológica, soporte especializado en sistemas CONTPAQi, conectividad remota e ingeniería de software para empresas.
+                    </p>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-semibold text-white uppercase text-xs mb-3">Sistemas</h4>
+                    <ul class="space-y-1.5 text-slate-400">
+                        <li><a href="contpaqi.html" class="hover:text-white">CONTPAQi Contabilidad</a></li>
+                        <li><a href="contpaqi.html" class="hover:text-white">CONTPAQi Nóminas</a></li>
+                        <li><a href="contpaqi.html" class="hover:text-white">CONTPAQi Comercial</a></li>
+                        <li><a href="contpaqi.html" class="hover:text-white">CONTPAQi Bancos</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-semibold text-white uppercase text-xs mb-3">Soluciones</h4>
+                    <ul class="space-y-1.5 text-slate-400">
+                        <li><a href="servicios.html" class="hover:text-white">CoreConnect Desktop</a></li>
+                        <li><a href="servicios.html" class="hover:text-white">CoreGuard Backup</a></li>
+                        <li><a href="cursos.html" class="hover:text-white">Capacitación y Cursos</a></li>
+                        <li><a href="soporte.html" class="hover:text-white">Pólizas de Soporte</a></li>
+                        <li><a href="desarrollo.html" class="hover:text-white">Software a Medida</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h4 class="font-heading font-semibold text-white uppercase text-xs mb-3">Contacto Directo</h4>
+                    <p class="text-slate-400 text-[11px] mb-2">contacto@digitalcoresolutions.com.mx</p>
+                    <p class="text-slate-400 text-[11px] mb-4">Soporte y Ventas a nivel nacional</p>
+                    <a href="login.html" class="inline-block bg-navy-dark hover:bg-navy-surface text-slate-200 font-semibold px-3 py-1.5 rounded border border-navy-border">
+                        <i class="fa-solid fa-lock mr-1 text-slate-400"></i> Portal de Usuarios
+                    </a>
+                </div>
+
+            </div>
+
+            <div class="flex flex-col sm:flex-row justify-between items-center gap-4 text-[11px]">
+                <p>&copy; 2026 Digital Core Solutions. Todos los derechos reservados.</p>
+                <div class="flex gap-4">
+                    <a href="contacto.html" class="hover:text-white">Aviso de Privacidad</a>
+                    <a href="contacto.html" class="hover:text-white">Términos del Servicio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- BOTÓN DE WHATSAPP -->
+    <a href="https://wa.me/5219935040401" target="_blank" class="fixed bottom-6 right-6 bg-navy-base hover:bg-navy-dark text-white border border-navy-border w-14 h-14 rounded-full flex items-center justify-center shadow-2xl text-2xl z-50 transition transform hover:scale-105" title="Contactar por WhatsApp">
+        <i class="fa-brands fa-whatsapp text-emerald-400"></i>
+    </a>
+
+</body>
+</html>

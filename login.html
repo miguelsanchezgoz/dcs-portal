@@ -238,9 +238,13 @@
 
                     const userRole = profile ? profile.rol : 'cliente_general';
 
-                    // 3. Redirección condicionada
+                    // 3. Redirección condicionada por roles
                     setTimeout(() => {
-                        if (userRole === 'desayunos_escolares') {
+                        if (userRole === 'educore' || userRole === 'docente') {
+                            // En desarrollo local redirige al puerto 3000 donde corre EduCore
+                            // En producción cambiarás 'http://localhost:3000' por 'https://educore.digitalcoresolutions.com.mx'
+                            window.location.href = 'http://localhost:3000';
+                        } else if (userRole === 'desayunos_escolares') {
                             window.location.href = 'dashboard-escolar.html';
                         } else {
                             window.location.href = 'dashboard.html';
